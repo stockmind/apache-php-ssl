@@ -6,8 +6,8 @@ It's in an early stage still in development and testing.
 
 # Scripts from:
 
-https://github.com/greyltc/docker-LAMP # SSl setup
-https://github.com/ulsmith/alpine-apache-php7 # Customizable start script
+- https://github.com/greyltc/docker-LAMP # SSl setup
+- https://github.com/ulsmith/alpine-apache-php7 # Customizable start script
 
 # Launch
 
