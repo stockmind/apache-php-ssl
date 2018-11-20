@@ -1,10 +1,17 @@
 #!/bin/sh
 
+APACHE_CONF="${APACHE_CONFDIR}"/apache2.conf
+
 # Apache server name change
 if [ ! -z "$HOSTNAME" ]
 	then
-		sed -i "s/#ServerName .*/ServerName $HOSTNAME/" /etc/apache2/httpd.conf
-		echo "Changed server name to '$HOSTNAME'..."
+		if grep -q ServerName "${APACHE_CONF}"; then
+			sed -i "s/#ServerName .*/ServerName $HOSTNAME/" "${APACHE_CONF}"
+			echo "Changed server name to '$HOSTNAME'..."
+		else
+			echo "ServerName ${HOSTNAME}" >> "${APACHE_CONF}"
+			echo "Appended server name as '$HOSTNAME'..."
+		fi
 	else
 		echo "NOTICE: Change 'ServerName' globally and hide server message by setting environment variable >> 'APACHE_SERVER_NAME=your.server.name' in docker command or docker-compose file"
 fi
@@ -67,4 +74,4 @@ fi
 echo "Starting apache..."
 apache2ctl start
 
-while sleep 3600; do :; done
+sleep infinity
