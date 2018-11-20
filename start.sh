@@ -69,11 +69,11 @@ if [ ! -z "$PHP_XDEBUG_ENABLED" ]
 		echo 'xdebug.remote_autostart=true' >> "${PHP_INI_DIR}"/php.ini;
 fi
 
+setupssl
+
 # Start (ensure apache2 PID not left behind first) to stop auto start crashes if didn't shut down properly
 
 echo "Starting apache..."
 service apache2 start
-
-setupssl
 
 sleep infinity
