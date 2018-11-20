@@ -58,7 +58,6 @@ if [[ "$DO_SSL_SELF_GENERATION" = true || "$DO_SSL_LETS_ENCRYPT_FETCH" = true ||
   fi
 
   if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
-    : ${HOSTNAME:=$(hostname --fqdn)}
     echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
     echo "This container's Apache server must be reachable from the Internet via https://${HOSTNAME} and https://www.${HOSTNAME}"
     certbot --non-interactive --pre-hook "apache2ctl stop" --post-hook "apache2ctl start" --authenticator standalone --installer apache --agree-tos --email ${EMAIL} -d ${HOSTNAME} -d www.${HOSTNAME} certonly
