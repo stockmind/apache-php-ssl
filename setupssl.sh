@@ -22,7 +22,7 @@ if [[ "$DO_SSL_SELF_GENERATION" = true || "$DO_SSL_LETS_ENCRYPT_FETCH" = true ||
 	&& sed -i "s/SSLCertificateKeyFile .*/SSLCertificateKeyFile ${CERT_DIR}/${KEY_FILE_NAME}/g" "${APACHE_SSL_CONF}" \
 	&& sed -i '/ServerName www.example.com:443/d' "${APACHE_SSL_CONF}" \
 	&& sed -i "s#^DocumentRoot \".*#DocumentRoot \"/var/www/html\"#g" "${APACHE_SSL_CONF}" \
-    && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" "${APACHE_SSL_CONF}"
+  && sed -i "s#/var/www/localhost/htdocs#/var/www/html#" "${APACHE_SSL_CONF}"
 
   # let's tell apache to look for ssl cert files (called server.crt and server.key) in this folder
   sed -i "s,/etc/ssl/certs/ssl-cert-snakeoil.pem,${CERT_DIR}/${CRT_FILE_NAME},g" ${APACHE_SSL_CONF}
@@ -60,8 +60,8 @@ if [[ "$DO_SSL_SELF_GENERATION" = true || "$DO_SSL_LETS_ENCRYPT_FETCH" = true ||
   if [ "$DO_SSL_LETS_ENCRYPT_FETCH" = true ] ; then
     : ${HOSTNAME:=$(hostname --fqdn)}
     echo "Fetching ssl certificate files for ${HOSTNAME} from letsencrypt.org."
-    echo "This container's Apache server must be reachable from the Internet via https://${HOSTNAME}"
-    certbot --non-interactive --pre-hook "apache2ctl stop" --post-hook "apache2ctl start" --authenticator standalone --installer apache --debug --agree-tos --email ${EMAIL} -d ${HOSTNAME} certonly
+    echo "This container's Apache server must be reachable from the Internet via https://${HOSTNAME} and https://www.${HOSTNAME}"
+    certbot --non-interactive --pre-hook "apache2ctl stop" --post-hook "apache2ctl start" --authenticator standalone --installer apache --agree-tos --email ${EMAIL} -d ${HOSTNAME} -d www.${HOSTNAME} certonly
     if [ $? -eq 0 ]; then
       link_certbot_keys $HOSTNAME
     else
