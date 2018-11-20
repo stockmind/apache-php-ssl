@@ -1,6 +1,6 @@
 FROM php:7.2-apache-stretch
 
-ENV DO_SSL_SELF_GENERATION false
+ENV DO_SSL_SELF_GENERATION true
 
 RUN apt-get update && apt-get install -y \
 	certbot python-certbot-apache \
