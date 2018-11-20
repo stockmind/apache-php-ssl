@@ -75,8 +75,9 @@ if [[ "$DO_SSL_SELF_GENERATION" = true || "$DO_SSL_LETS_ENCRYPT_FETCH" = true ||
     echo "SSL setup with existing Let's Encrypt cert"
     HOSTNAME="$(find /etc/letsencrypt/live/. -type d | sed -n 2p)"
     if [ -d "$HOSTNAME" ]; then
+      echo "Copy certs from let's encrypt on the right place..."
       certbot renew
-      link_certbot_keys $(basename $HOSTNAME)
+      link_certbot_keys $HOSTNAME
       echo "Done."
     else
       echo "Could not find previously fetched Let's Encrypt files!"
