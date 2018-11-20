@@ -62,10 +62,12 @@ if [[ "$DO_SSL_SELF_GENERATION" = true || "$DO_SSL_LETS_ENCRYPT_FETCH" = true ||
     echo "This container's Apache server must be reachable from the Internet via https://${HOSTNAME} and https://www.${HOSTNAME}"
     certbot --non-interactive --pre-hook "service apache2 stop" --post-hook "service apache2 start" --authenticator standalone --installer apache --agree-tos --email ${EMAIL} -d ${HOSTNAME} -d www.${HOSTNAME} certonly
     if [ $? -eq 0 ]; then
+      echo "Copy certs from let's encrypt on the right place..."
       link_certbot_keys $HOSTNAME
     else
       echo "Failed to fetch ssl cert from let's encrypt"
     fi
+    echo "Let's encrypt fetch complete!"
   fi
 
   # do this when you've volume mapped previously fetched let's encrypt files into the container
