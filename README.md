@@ -13,14 +13,23 @@ It's in an early stage still in development and testing.
 
 ## First launch
 ```bash
+#!/bin/bash
+
+SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
+
+LOCALPATH="${SCRIPTPATH}"/web
+CERTPATH="${SCRIPTPATH}"/certs
+HOSTNAME="yourhostname.com"
+EMAIL="your@email.com"
+
 docker run -d \
-    -v <localpath>:/var/www/html \
-    -v <certpath>:/etc/letsencrypt/live/ \
+    -v "${LOCALPATH}":/var/www/html \
+    -v "${CERTPATH}":/etc/letsencrypt/live/ \
     -p 80:80 \
     -p 443:443 \
     -e DO_SSL_LETS_ENCRYPT_FETCH=true \
-    -e HOSTNAME=yourhost.com \
-    -e EMAIL=youremail.com \
+    -e HOSTNAME="${HOSTNAME}" \
+    -e EMAIL="${EMAIL}" \
     --name server-lap \
     stockmind/apache-php-ssl
 ```
