@@ -2,6 +2,8 @@
 
 This is a docker/php image extension that adds SSL based on other similar docker images.
 
+It's in an early stage still in development and testing.
+
 # Scripts from:
 
 https://github.com/greyltc/docker-LAMP # SSl setup
@@ -10,7 +12,7 @@ https://github.com/ulsmith/alpine-apache-php7 # Customizable start script
 # Launch
 
 ## First launch
-```
+```bash
 docker run -d \
             -v <localpath>:/var/www/html \
             -v <certpath>:/etc/letsencrypt/live/ \
